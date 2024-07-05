@@ -1,19 +1,36 @@
 import React, { useEffect, useState } from "react";
 import headshot from "../../src/assets/headshot.jpg";
-import { Alert, Avatar, Button, Checkbox, Label, Table } from "flowbite-react";
+import {
+  Alert,
+  Avatar,
+  Button,
+  Checkbox,
+  Clipboard,
+  Label,
+  Table,
+} from "flowbite-react";
 import CountUp from "react-countup";
 import { useNavigate } from "react-router-dom";
+import "../pages/dashboard/dashboard.css";
 
 function Dashboardcomp() {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [referralLink, setReferralLink] = useState("");
   const navigate = useNavigate();
 
+  // Utility function to capitalize the first letter of a string
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
+    const storedFirstName = localStorage.getItem("firstName");
     if (storedUsername) {
-      setUsername(storedUsername);
+      const capitalizedFirstName = capitalizeFirstLetter(storedFirstName);
+      setFirstName(capitalizedFirstName);
       setReferralLink(`http://localhost:3001/${storedUsername}`);
     } else {
       // If username is not found, redirect to sign-in page
@@ -33,24 +50,13 @@ function Dashboardcomp() {
     fetchTotalRevenue();
   }, []); // Empty dependency array to run only once
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(referralLink).then(
-      () => {
-        alert("Referral link copied to clipboard!");
-      },
-      (err) => {
-        console.error("Failed to copy: ", err);
-      }
-    );
-  };
-
   return (
     <main className="main__section p-8">
       <div className="dashboard__top p-8">
         <div className="item">
           <div className="item1__content">
             <div className="itemContent1">
-              <h2>Welcome, {username}!</h2>
+              <h2>Welcome, {firstName}!</h2>
               <p>Here is an overview of your Activities!</p>
             </div>
             <div className="itemContent2">
@@ -71,9 +77,9 @@ function Dashboardcomp() {
                         disabled
                         readOnly
                       />
-                      <Button onClick={copyToClipboard}>
+                      <Clipboard.WithIconText valueToCopy={referralLink}>
                         Copy Referral Link
-                      </Button>
+                      </Clipboard.WithIconText>
                     </div>
                   </div>
                 </Alert>
@@ -88,7 +94,7 @@ function Dashboardcomp() {
       <div className="item"></div>
       <div className="dashboard__mid mt-8">
         <div className="item">
-          <div className="activities">
+          <div className="activities p-8">
             <div className="total__downlines rounded">
               <div className="downlines">
                 <h2>900+</h2>

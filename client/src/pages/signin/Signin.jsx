@@ -39,6 +39,7 @@ function Signin() {
       if (token) {
         localStorage.setItem("token", token);
         localStorage.setItem("username", realtor.username);
+        localStorage.setItem("firstName", realtor.firstName);
         setSuccessMessage("Signin successful! Redirecting to dashboard...");
         setTimeout(() => {
           navigate(`/dashboard/${realtor.username}`);

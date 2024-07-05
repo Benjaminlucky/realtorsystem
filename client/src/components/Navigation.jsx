@@ -42,7 +42,8 @@ function Navigation() {
         </div>
         <div className="logout">
           <Button
-            className="w-full text-xl"
+            className="w-full text-xl rounded-none"
+            color="failure"
             onClick={handleLogout} // Use onClick instead of onSubmit
           >
             Log out

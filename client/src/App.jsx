@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/signup/Signup";
 import Signin from "./pages/signin/Signin";
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -20,6 +20,14 @@ function App() {
           }
         />
         <Route
+          path="/:username"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
+        <Route
           path="/signin"
           element={
             <PublicRoute>
@@ -28,6 +36,7 @@ function App() {
           }
         />
         <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<RedirectToDashboard />} />
           <Route path="/dashboard/:username" element={<Dashboard />} />
           <Route path="/profile" element={<Dashboard />} />
           <Route path="/estates" element={<Dashboard />} />
@@ -38,3 +47,11 @@ function App() {
 }
 
 export default App;
+const RedirectToDashboard = () => {
+  const username = localStorage.getItem("username");
+  return username ? (
+    <Navigate to={`/dashboard/${username}`} replace />
+  ) : (
+    <Navigate to="/signin" replace />
+  );
+};
