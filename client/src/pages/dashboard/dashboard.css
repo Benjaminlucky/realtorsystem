@@ -1,0 +1,80 @@
+.section {
+  background-color: white;
+  width: var(--fullwidth);
+  height: 100vh;
+}
+
+.section__content {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+.dashboard__left {
+  border-right: solid 2px var(--gray1);
+  width: 100%;
+  height: 100vh;
+}
+
+/* DASHBOARD NAVIGATION STYLES*/
+
+.dashNav__main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.top__nav {
+  display: flex;
+  margin-bottom: 2rem;
+  padding: 2rem;
+}
+
+.logo {
+  display: flex;
+}
+
+.logoLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logoLink h2 {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.bottom__nav {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash__link {
+  color: white;
+  padding: 0.5rem 2rem;
+  font-weight: 700;
+}
+
+.dash__link:hover {
+  background-color: var(--black1);
+  color: white;
+  font-weight: 700;
+  padding: 0.5rem 2rem;
+}
+.active {
+  background-color: var(--black1);
+  color: white;
+  font-weight: 700;
+  padding: 0.5rem 2rem;
+}
+/*DASHBOARD NAVIGATION STYLES END*/
