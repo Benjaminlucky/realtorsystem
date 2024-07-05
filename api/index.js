@@ -17,7 +17,13 @@ mongoose
     console.log(err.message);
   });
 
-app.use(cors({ origin: "http://localhost:3001" }));
+// After app is created
+app.use(
+  cors({
+    origin: "http://localhost:3001", // Replace with your frontend URL
+    credentials: true, // If you need cookies or authentication headers
+  })
+);
 
 app.use(express.json());
 

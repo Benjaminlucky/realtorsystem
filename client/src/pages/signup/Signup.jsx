@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../App.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Alert, Button, Select, Spinner, TextInput } from "flowbite-react";
 import "flowbite/dist/flowbite.css";
 
 function Signup() {
   const navigate = useNavigate();
+  const { username } = useParams(); // Get the username from the URL
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -38,6 +39,16 @@ function Signup() {
 
   const phoneNumberRegex = /^(080|070|090|081|091)[0-9]{8}$/;
   const bankAccountNumberRegex = /^[0-9]{10}$/;
+
+  // useEffect to set the referredBy field if username is present in the URL
+  useEffect(() => {
+    if (username) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        referredBy: username,
+      }));
+    }
+  }, [username]);
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -88,7 +99,7 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/realtor/signup", // Corrected URL
+        "http://localhost:3000/api/realtor/signup",
         formDataToSend
       );
       console.log(response.data);
@@ -109,10 +120,6 @@ function Signup() {
   };
 
   const resetForm = () => {
-    // setFormData({
-    //   emailAddress: "",
-    //   password: "",
-    // });
     setErrorMessage(null);
     setSuccessMessage(null);
   };

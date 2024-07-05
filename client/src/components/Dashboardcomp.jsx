@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import headshot from "../../src/assets/headshot.jpg";
 import {
   Alert,
@@ -9,18 +10,15 @@ import {
   Label,
   Table,
 } from "flowbite-react";
-import CountUp from "react-countup";
 import { useNavigate } from "react-router-dom";
 import "../pages/dashboard/dashboard.css";
 
 function Dashboardcomp() {
-  const [totalRevenue, setTotalRevenue] = useState(0);
-  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [referralLink, setReferralLink] = useState("");
+  const [referredRealtors, setReferredRealtors] = useState([]);
   const navigate = useNavigate();
 
-  // Utility function to capitalize the first letter of a string
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -33,22 +31,27 @@ function Dashboardcomp() {
       setFirstName(capitalizedFirstName);
       setReferralLink(`http://localhost:3001/${storedUsername}`);
     } else {
-      // If username is not found, redirect to sign-in page
       navigate("/signin");
     }
   }, [navigate]);
 
   useEffect(() => {
-    // Simulating a fetch call to get the total revenue
-    const fetchTotalRevenue = async () => {
-      // Fetch the total revenue from API
-      const response = await fetch("/api/total-revenue");
-      const data = await response.json();
-      setTotalRevenue(data.totalRevenue);
+    const fetchReferredRealtors = async () => {
+      const storedUsername = localStorage.getItem("username");
+      if (storedUsername) {
+        try {
+          const apiUrl = `http://localhost:3000/api/realtor/referredby/${storedUsername}`;
+          console.log(`Fetching referred realtors from: ${apiUrl}`);
+          const response = await axios.get(apiUrl);
+          setReferredRealtors(response.data.realtors);
+        } catch (error) {
+          console.error("Error fetching referred realtors", error);
+        }
+      }
     };
 
-    fetchTotalRevenue();
-  }, []); // Empty dependency array to run only once
+    fetchReferredRealtors();
+  }, []);
 
   return (
     <main className="main__section p-8">
@@ -140,57 +143,25 @@ function Dashboardcomp() {
             <Table.HeadCell>Birthday</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            <Table.Row>
-              <Table.Cell>
-                <Checkbox />
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"Andor Paul"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"AndorPaul@gmail.com"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"08053642425"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"May 31"}
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>
-                <Checkbox />
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"Andor Paul"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"AndorPaul@gmail.com"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"08053642425"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"May 31"}
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>
-                <Checkbox />
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"Andor Paul"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"AndorPaul@gmail.com"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"08053642425"}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {"May 31"}
-              </Table.Cell>
-            </Table.Row>
+            {referredRealtors.map((realtor) => (
+              <Table.Row key={realtor._id}>
+                <Table.Cell>
+                  <Checkbox />
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {realtor.firstName} {realtor.lastName}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {realtor.emailAddress}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {realtor.phoneNumber}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {new Date(realtor.birthDate).toLocaleDateString()}
+                </Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table>
       </div>

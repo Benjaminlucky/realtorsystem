@@ -214,3 +214,26 @@ export const checkUsernameExists = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+// Endpoint to fetch referred realtors
+export const checkReferredby = async (req, res) => {
+  const { username } = req.params;
+  console.log(
+    `Received request to fetch referred realtors for username: ${username}`
+  );
+
+  try {
+    const realtor = await Realtor.findOne({ username });
+    if (!realtor) {
+      console.log("Realtor not found");
+      return res.status(404).json({ message: "Realtor not found" });
+    }
+
+    const referredRealtors = await Realtor.find({ referredBy: realtor._id });
+    console.log(`Found ${referredRealtors.length} referred realtors`);
+    res.json({ realtors: referredRealtors });
+  } catch (error) {
+    console.error("Error fetching referred realtors", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
