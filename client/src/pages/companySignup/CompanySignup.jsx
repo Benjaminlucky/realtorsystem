@@ -12,6 +12,7 @@ import { CiCreditCard1 } from "react-icons/ci";
 import { IoServerOutline } from "react-icons/io5";
 import { GiSandsOfTime } from "react-icons/gi";
 import React from "react";
+import "./companySignup.css";
 
 function CompanySignup() {
   return (
@@ -19,27 +20,39 @@ function CompanySignup() {
       <div className="company__wrapper">
         <div className="company__left">
           <div className="clefttop">
-            <h1>Nexaflow</h1>
+            <h1 className="nexaTitle">Nexaflow</h1>
             <p>Your all in one Realtor Management System</p>
           </div>
           <div className="cleftbottom">
-            <p>&copy; 2024 Nexaflow All rights Reserved</p>
+            <p className="nexabottom">
+              &copy; 2024 Nexaflow All rights Reserved
+            </p>
           </div>
         </div>
         <div className="company__right">
           <div className="cright__content">
-            <div className="cright__top">
-              <h3>Subscribe to our platform</h3>
-              <p>To manage your realtors Conveniently</p>
+            <div className="cright__top mb-12">
+              <h3 className="sub__title text-gray-500">
+                Subscribe to our platform
+              </h3>
+              <p className="sub__subtitle text-gray-500">
+                To manage your realtors Conveniently
+              </p>
             </div>
             <div className="cright__bottom">
               <form className="gap-12">
-                <div className="companydetails flex-col w-max">
-                  <h2>Company Details</h2>
-                  <div className="flex mb-6 gap-2">
-                    <div className="company__name">
+                <div className="companydetails flex-col w-full">
+                  <h2 className="right__secdetail mb-6 text-gray-400">
+                    Company Details
+                  </h2>
+                  <div className="form-row">
+                    <div className="mb-8 company__name">
                       <div className="mb-2 block">
-                        <Label htmlFor="companyName" value="Company Name" />
+                        <Label
+                          className="text-gray-400"
+                          htmlFor="companyName"
+                          value="Company Name"
+                        />
                       </div>
                       <TextInput
                         id="companyName"
@@ -50,9 +63,10 @@ function CompanySignup() {
                         required
                       />
                     </div>
-                    <div className="company__name">
+                    <div className="mb-8 company__address">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="companyAddress"
                           value="Company Address"
                         />
@@ -67,27 +81,32 @@ function CompanySignup() {
                       />
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <div className="company__size">
+                  <div className="form-row">
+                    <div className="mb-8 company__size">
                       <div className="mb-2 block">
-                        <Label htmlFor="companySize" value="Company Size" />
+                        <Label
+                          htmlFor="companySize"
+                          className="text-gray-400"
+                          value="Company Size"
+                        />
                       </div>
-                      <Select id="CompanySize" icon={FaUsers} required>
+                      <Select id="companySize" icon={FaUsers} required>
                         <option>1 - 5 Staff</option>
                         <option>5 - 10 Staff</option>
                         <option>10 - 20</option>
                         <option>20 - 50</option>
                       </Select>
                     </div>
-                    <div className="company__email">
+                    <div className="mb-8 company__email">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="companyEmail"
                           value="Company Email Address"
                         />
                       </div>
                       <TextInput
-                        id="companyAddress"
+                        id="companyEmail"
                         type="email"
                         name="companyEmail"
                         placeholder="info@kemchutahomesltd.com"
@@ -97,12 +116,15 @@ function CompanySignup() {
                     </div>
                   </div>
                 </div>
-                <div className="companydetails flex-col w-max">
-                  <h2>Primary Contact Person</h2>
-                  <div className="flex mb-6 gap-2">
-                    <div className="name__contactPerson">
+                <div className="companydetails flex-col w-full">
+                  <h2 className="right__secdetail mb-6 text-gray-400">
+                    Primary Contact Person
+                  </h2>
+                  <div className="form-row">
+                    <div className="mb-8 contact__name">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="contactPersonName"
                           value="Full Name - Contact Person"
                         />
@@ -116,9 +138,10 @@ function CompanySignup() {
                         required
                       />
                     </div>
-                    <div className="job__contactPerson">
+                    <div className="mb-8 contact__job">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="contactPersonJobTitle"
                           value="Job Title - Contact Person"
                         />
@@ -133,26 +156,28 @@ function CompanySignup() {
                       />
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <div className="email__contactperson">
+                  <div className="form-row">
+                    <div className="mb-8 contact__email">
                       <div className="mb-2 block">
                         <Label
-                          htmlFor="emailContactPerson"
+                          className="text-gray-400"
+                          htmlFor="contactPersonEmail"
                           value="Email - Contact Person"
                         />
                       </div>
                       <TextInput
                         id="contactPersonEmail"
-                        type="text"
+                        type="email"
                         name="contactPersonEmail"
                         placeholder="admin@kemchutahomesltd.com"
                         icon={HiOutlineMail}
                         required
                       />
                     </div>
-                    <div className="phone__contactPerson">
+                    <div className="mb-8 contact__phone">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="phoneContactPerson"
                           value="Phone - Contact Person"
                         />
@@ -168,12 +193,15 @@ function CompanySignup() {
                     </div>
                   </div>
                 </div>
-                <div className="companydetails flex-col w-max">
-                  <h2>Account Setup</h2>
-                  <div className="flex mb-6 gap-2">
-                    <div className="account__username">
+                <div className="companydetails flex-col w-full">
+                  <h2 className="right__secdetail mb-6 text-gray-400">
+                    Account Setup
+                  </h2>
+                  <div className="form-row">
+                    <div className="mb-8 account__username">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="accountUsername"
                           value="Account Username"
                         />
@@ -187,9 +215,10 @@ function CompanySignup() {
                         required
                       />
                     </div>
-                    <div className="account__password">
+                    <div className="mb-8 account__password">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="accountPassword"
                           value="Account Password"
                         />
@@ -204,10 +233,11 @@ function CompanySignup() {
                       />
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <div className="confirm__password">
+                  <div className="form-row">
+                    <div className="mb-8 confirm__password">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="confirmPassword"
                           value="Confirm Account Password"
                         />
@@ -221,23 +251,26 @@ function CompanySignup() {
                         required
                       />
                     </div>
-                    <div className="payment__method">
+                    <div className="mb-8 payment__method">
                       <div className="mb-2 block">
-                        <Label htmlFor="paymentMethod" value="Payment Method" />
+                        <Label
+                          className="text-gray-400"
+                          htmlFor="paymentMethod"
+                          value="Payment Method"
+                        />
                       </div>
                       <Select id="paymentMethod" icon={CiCreditCard1} required>
                         <option>Visa & Mastercard Debit & Credit Cards</option>
-                        <option>
-                          Visa & Mastercard Debit & Credit Cards - Paystack
-                        </option>
-                        <option>PayPal</option>
+                        <option>Visa & Mastercard Debit & Credit Cards</option>
+                        <option>Visa & Mastercard Debit & Credit Cards</option>
                       </Select>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="form-row">
                     <div className="subscription__plan">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="subscriptionPlan"
                           value="Subscription Plan"
                         />
@@ -247,14 +280,15 @@ function CompanySignup() {
                         icon={IoServerOutline}
                         required
                       >
-                        <option>Nexaflow Silver Plan</option>
-                        <option>Nexaflow Gold Plan</option>
-                        <option>Nexaflow Diamond Plan</option>
+                        <option>Starter</option>
+                        <option>Pro</option>
+                        <option>Premium</option>
                       </Select>
                     </div>
                     <div className="subscription__duration">
                       <div className="mb-2 block">
                         <Label
+                          className="text-gray-400"
                           htmlFor="subscriptionDuration"
                           value="Subscription Duration"
                         />
@@ -265,13 +299,21 @@ function CompanySignup() {
                         required
                       >
                         <option>Monthly</option>
-                        <option>Quarterly</option>
                         <option>Annually</option>
                       </Select>
                     </div>
                   </div>
                 </div>
-                <Button gradientDuoTone="greenToBlue">Complete Sign Up</Button>
+                <div className="">
+                  <Button
+                    className="submit__btn text-4xl"
+                    size="xl"
+                    gradientDuoTone="pinkToOrange"
+                    type="submit"
+                  >
+                    Complete Account Sign Up
+                  </Button>
+                </div>
               </form>
             </div>
           </div>
