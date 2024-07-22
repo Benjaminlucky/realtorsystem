@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import "flowbite/dist/flowbite.css";
+import CompanySignup from "./pages/companySignup/CompanySignup";
 
 function App() {
   return (
@@ -32,6 +33,14 @@ function App() {
           element={
             <PublicRoute>
               <Signin />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/companysignup"
+          element={
+            <PublicRoute>
+              <CompanySignup />
             </PublicRoute>
           }
         />

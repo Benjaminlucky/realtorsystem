@@ -68,7 +68,7 @@ function Signin() {
     <main className="section">
       <div className="signin__left"></div>
       <div className="right">
-        <div className="right__content">
+        <div className="right__content justify-center">
           <div className="top__content">
             <h2 className="signin__title">Sign In</h2>
             <p>Login to access your account!</p>

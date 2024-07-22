@@ -120,7 +120,7 @@ function Dashboardcomp() {
             </div>
             <div className="total__revenue rounded">
               <div className="revenue">
-                <h2>N55,783,889.88</h2>
+                <h2>N100,783,889.88</h2>
                 <small>All Time Total Revenue</small>
               </div>
               <div className="commission">
