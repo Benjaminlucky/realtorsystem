@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import realtorRoutes from "./routes/realtor.route.js";
+import companyRoutes from "./routes/company.route.js";
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use(express.json());
 
 app.use("/api/realtor", realtorRoutes); // Matches the URL in Axios request
 app.use("/api/realtor", realtorRoutes);
+app.use("/api/companies", companyRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
