@@ -2,20 +2,20 @@ import mongoose from "mongoose";
 
 const companySchema = new mongoose.Schema(
   {
-    name: {
+    companyName: {
       type: String,
       required: true,
       unique: true,
     },
-    address: {
+    companyAddress: {
       type: String,
       required: true,
     },
-    size: {
+    companySize: {
       type: String,
       required: true,
     },
-    email: {
+    companyEmail: {
       type: String,
       required: true,
       unique: true,
