@@ -11,6 +11,7 @@ import { MdOutlinePassword } from "react-icons/md";
 import { CiCreditCard1 } from "react-icons/ci";
 import { IoServerOutline } from "react-icons/io5";
 import { GiSandsOfTime } from "react-icons/gi";
+import { FaArrowRightLong } from "react-icons/fa6";
 import React from "react";
 import "./companySignup.css";
 
@@ -311,7 +312,8 @@ function CompanySignup() {
                     gradientDuoTone="pinkToOrange"
                     type="submit"
                   >
-                    Complete Account Sign Up
+                    Complete Account Sign Up{" "}
+                    <FaArrowRightLong className="arrow" />
                   </Button>
                 </div>
               </form>
