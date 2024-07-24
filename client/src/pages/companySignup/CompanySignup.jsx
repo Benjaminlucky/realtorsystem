@@ -12,10 +12,82 @@ import { CiCreditCard1 } from "react-icons/ci";
 import { IoServerOutline } from "react-icons/io5";
 import { GiSandsOfTime } from "react-icons/gi";
 import { FaArrowRightLong } from "react-icons/fa6";
-import React from "react";
+import React, { useState } from "react";
 import "./companySignup.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function CompanySignup() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    companyName: "",
+    companyAddress: "",
+    companySize: "",
+    companyEmail: "",
+    contactPerson: {
+      fullName: "",
+      jobTitle: "",
+      email: "",
+      phone: "",
+    },
+    username: "",
+    password: "",
+    confirmPassword: "",
+    subscription: {
+      plan: "",
+      duration: "",
+      paymentMethod: "",
+    },
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name.includes("contactPerson")) {
+      setFormData((prevData) => ({
+        ...prevData,
+        contactPerson: {
+          ...prevData.contactPerson,
+          [name.split(".")[1]]: value,
+        },
+      }));
+    } else if (name.includes("subscription")) {
+      setFormData((prevData) => ({
+        ...prevData,
+        subscription: {
+          ...prevData.subscription,
+          [name.split(".")[1]]: value,
+        },
+      }));
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/companies",
+        formData
+      );
+      console.log("company created successfully:", response.data);
+      // handle success (e.g, show a success message or direct)
+      navigate("/companyDashboard");
+    } catch (error) {
+      console.error("Error creating company:", error);
+      // handle error(e.g., show an error message)
+    }
+  };
+
   return (
     <main className="company__section">
       <div className="company__wrapper">
@@ -41,7 +113,7 @@ function CompanySignup() {
               </p>
             </div>
             <div className="cright__bottom">
-              <form className="gap-12">
+              <form className="gap-12" onSubmit={handleSubmit}>
                 <div className="companydetails flex-col w-full">
                   <h2 className="right__secdetail mb-6 text-gray-400">
                     Company Details
@@ -61,6 +133,7 @@ function CompanySignup() {
                         name="companyName"
                         placeholder="kemchutahomes"
                         icon={FaHouseChimneyUser}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -78,6 +151,7 @@ function CompanySignup() {
                         name="companyAddress"
                         placeholder="N0 2 Jose Atlanta USA"
                         icon={FaLocationDot}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -91,7 +165,13 @@ function CompanySignup() {
                           value="Company Size"
                         />
                       </div>
-                      <Select id="companySize" icon={FaUsers} required>
+                      <Select
+                        id="companySize"
+                        icon={FaUsers}
+                        onChange={handleChange}
+                        name="companySize"
+                        required
+                      >
                         <option>1 - 5 Staff</option>
                         <option>5 - 10 Staff</option>
                         <option>10 - 20</option>
@@ -112,6 +192,7 @@ function CompanySignup() {
                         name="companyEmail"
                         placeholder="info@kemchutahomesltd.com"
                         icon={HiOutlineMail}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -131,11 +212,12 @@ function CompanySignup() {
                         />
                       </div>
                       <TextInput
-                        id="contactPersonName"
+                        id="fullName"
                         type="text"
-                        name="contactPersonName"
+                        name="contactPerson.fullName"
                         placeholder="Harmony Benjamin"
                         icon={FaUserTie}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -148,11 +230,12 @@ function CompanySignup() {
                         />
                       </div>
                       <TextInput
-                        id="contactPersonJobTitle"
+                        id="jobTitle"
                         type="text"
-                        name="contactPersonJobTitle"
+                        name="contactPerson.jobTitle"
                         placeholder="Administrator"
                         icon={BsBriefcase}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -162,16 +245,17 @@ function CompanySignup() {
                       <div className="mb-2 block">
                         <Label
                           className="text-gray-400"
-                          htmlFor="contactPersonEmail"
+                          htmlFor="email"
                           value="Email - Contact Person"
                         />
                       </div>
                       <TextInput
-                        id="contactPersonEmail"
+                        id="email"
                         type="email"
-                        name="contactPersonEmail"
+                        name="contactPerson.email"
                         placeholder="admin@kemchutahomesltd.com"
                         icon={HiOutlineMail}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -179,16 +263,17 @@ function CompanySignup() {
                       <div className="mb-2 block">
                         <Label
                           className="text-gray-400"
-                          htmlFor="phoneContactPerson"
+                          htmlFor="phone"
                           value="Phone - Contact Person"
                         />
                       </div>
                       <TextInput
-                        id="phoneContactPerson"
+                        id="phone"
                         type="tel"
-                        name="phoneContactPerson"
+                        name="contactPerson.phone"
                         placeholder="+234 805 364 2425"
                         icon={FaPhoneAlt}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -203,16 +288,17 @@ function CompanySignup() {
                       <div className="mb-2 block">
                         <Label
                           className="text-gray-400"
-                          htmlFor="accountUsername"
+                          htmlFor="username"
                           value="Account Username"
                         />
                       </div>
                       <TextInput
-                        id="accountUsername"
+                        id="username"
                         type="text"
-                        name="accountUsername"
+                        name="username"
                         placeholder="kemchutahomes"
                         icon={FaUserPlus}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -220,16 +306,17 @@ function CompanySignup() {
                       <div className="mb-2 block">
                         <Label
                           className="text-gray-400"
-                          htmlFor="accountPassword"
+                          htmlFor="password"
                           value="Account Password"
                         />
                       </div>
                       <TextInput
                         id="accountPassword"
                         type="password"
-                        name="accountPassword"
+                        name="password"
                         placeholder="*******"
                         icon={MdOutlinePassword}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -249,6 +336,7 @@ function CompanySignup() {
                         name="confirmPassword"
                         placeholder="*******"
                         icon={MdOutlinePassword}
+                        onChange={handleChange}
                         required
                       />
                     </div>
@@ -260,7 +348,13 @@ function CompanySignup() {
                           value="Payment Method"
                         />
                       </div>
-                      <Select id="paymentMethod" icon={CiCreditCard1} required>
+                      <Select
+                        id="paymentMethod"
+                        icon={CiCreditCard1}
+                        onChange={handleChange}
+                        name="subscription.paymentMethod"
+                        required
+                      >
                         <option>Visa & Mastercard Debit & Credit Cards</option>
                         <option>Visa & Mastercard Debit & Credit Cards</option>
                         <option>Visa & Mastercard Debit & Credit Cards</option>
@@ -279,6 +373,8 @@ function CompanySignup() {
                       <Select
                         id="subscriptionPlan"
                         icon={IoServerOutline}
+                        onChange={handleChange}
+                        name="subscription.plan"
                         required
                       >
                         <option>Starter</option>
@@ -297,6 +393,8 @@ function CompanySignup() {
                       <Select
                         id="subscriptionDuration"
                         icon={GiSandsOfTime}
+                        onChange={handleChange}
+                        name="subscription.duration"
                         required
                       >
                         <option>Monthly</option>

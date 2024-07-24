@@ -48,15 +48,15 @@ const companySchema = new mongoose.Schema(
       required: true,
     },
     subscription: {
+      paymentMethod: {
+        type: String,
+        required: true,
+      },
       plan: {
         type: String,
         required: true,
       },
       duration: {
-        type: String,
-        required: true,
-      },
-      paymentMethod: {
         type: String,
         required: true,
       },
