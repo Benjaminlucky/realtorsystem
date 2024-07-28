@@ -1,4 +1,11 @@
-import { Button, Label, Select, TextInput } from "flowbite-react";
+import {
+  Alert,
+  Button,
+  Label,
+  Select,
+  Spinner,
+  TextInput,
+} from "flowbite-react";
 import { FaHouseChimneyUser } from "react-icons/fa6";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaUsers } from "react-icons/fa";
@@ -19,6 +26,9 @@ import { useNavigate } from "react-router-dom";
 
 function CompanySignup() {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(""); // State for Error Message
+  const [successMessage, setSuccessMessage] = useState(""); // State for success Message
+  const [loading, setLoading] = useState(false); // state for loading initial  state false
   const [formData, setFormData] = useState({
     companyName: "",
     companyAddress: "",
@@ -40,9 +50,14 @@ function CompanySignup() {
     },
   });
 
+  const phoneNumberRegex = /^(080|070|090|081|091)[0-9]{8}$/;
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
     if (name.includes("contactPerson")) {
+      if (name === "contactPerson.phone") {
+        value = value.replace(/[^0-9]/g, ""); // only allow numbers
+      }
       setFormData((prevData) => ({
         ...prevData,
         contactPerson: {
@@ -66,11 +81,26 @@ function CompanySignup() {
     }
   };
 
+  const handlePhoneInput = (e) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, ""); // only allow numbers
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      //alert("Passwords do not match!");
+      setErrorMessage("Password do not match!");
+      setLoading(false);
+      return;
+    }
+
+    if (!phoneNumberRegex.test(formData.contactPerson.phone)) {
+      setErrorMessage(
+        "Invalid phone number format!, Please enter a valid 11-digit phone number starting with 080, 070, 090, 081, or 091."
+      );
+      setLoading(false);
       return;
     }
 
@@ -81,9 +111,19 @@ function CompanySignup() {
       );
       console.log("company created successfully:", response.data);
       // handle success (e.g, show a success message or direct)
-      navigate("/companyDashboard");
+      setSuccessMessage(
+        "Sign Up successful!.........redirecting to Sign in Page"
+      );
+      setLoading(false);
+      setTimeout(() => {
+        navigate("/companyDashboard");
+      }, 2000); // Set timeout 2 seconds
     } catch (error) {
       console.error("Error creating company:", error);
+      const errorMessage = error.response.data.message;
+      setErrorMessage(errorMessage);
+      setLoading(false);
+      return;
       // handle error(e.g., show an error message)
     }
   };
@@ -134,7 +174,6 @@ function CompanySignup() {
                         placeholder="kemchutahomes"
                         icon={FaHouseChimneyUser}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                     <div className="mb-8 company__address">
@@ -152,7 +191,6 @@ function CompanySignup() {
                         placeholder="N0 2 Jose Atlanta USA"
                         icon={FaLocationDot}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                   </div>
@@ -170,12 +208,15 @@ function CompanySignup() {
                         icon={FaUsers}
                         onChange={handleChange}
                         name="companySize"
-                        required
                       >
-                        <option>1 - 5 Staff</option>
-                        <option>5 - 10 Staff</option>
-                        <option>10 - 20</option>
-                        <option>20 - 50</option>
+                        <option disabled selected>
+                          {" "}
+                          Choose you Company Size
+                        </option>
+                        <option value="1 - 5 Staff">1 - 5 Staff</option>
+                        <option value="5 - 10 Staff">5 - 10 Staff</option>
+                        <option value="10 - 20 Staff">10 - 20 Staff</option>
+                        <option value="20 - 50 Staff">20 - 50 Staff</option>
                       </Select>
                     </div>
                     <div className="mb-8 company__email">
@@ -193,7 +234,6 @@ function CompanySignup() {
                         placeholder="info@kemchutahomesltd.com"
                         icon={HiOutlineMail}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                   </div>
@@ -218,7 +258,6 @@ function CompanySignup() {
                         placeholder="Harmony Benjamin"
                         icon={FaUserTie}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                     <div className="mb-8 contact__job">
@@ -236,7 +275,6 @@ function CompanySignup() {
                         placeholder="Administrator"
                         icon={BsBriefcase}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                   </div>
@@ -256,7 +294,6 @@ function CompanySignup() {
                         placeholder="admin@kemchutahomesltd.com"
                         icon={HiOutlineMail}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                     <div className="mb-8 contact__phone">
@@ -273,8 +310,8 @@ function CompanySignup() {
                         name="contactPerson.phone"
                         placeholder="+234 805 364 2425"
                         icon={FaPhoneAlt}
+                        onInput={handlePhoneInput}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                   </div>
@@ -299,7 +336,6 @@ function CompanySignup() {
                         placeholder="kemchutahomes"
                         icon={FaUserPlus}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                     <div className="mb-8 account__password">
@@ -317,7 +353,6 @@ function CompanySignup() {
                         placeholder="*******"
                         icon={MdOutlinePassword}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                   </div>
@@ -337,7 +372,6 @@ function CompanySignup() {
                         placeholder="*******"
                         icon={MdOutlinePassword}
                         onChange={handleChange}
-                        required
                       />
                     </div>
                     <div className="mb-8 payment__method">
@@ -353,11 +387,19 @@ function CompanySignup() {
                         icon={CiCreditCard1}
                         onChange={handleChange}
                         name="subscription.paymentMethod"
-                        required
                       >
-                        <option>Visa & Mastercard Debit & Credit Cards</option>
-                        <option>Visa & Mastercard Debit & Credit Cards</option>
-                        <option>Visa & Mastercard Debit & Credit Cards</option>
+                        <option disabled selected>
+                          Select a Payment Method
+                        </option>
+                        <option value="Visa & Mastercard Debit & Credit Cards">
+                          Visa & Mastercard Debit & Credit Cards
+                        </option>
+                        <option value="Visa & Mastercard Debit & Credit Cards">
+                          Visa & Mastercard Debit & Credit Cards
+                        </option>
+                        <option value="Visa & Mastercard Debit & Credit Cards">
+                          Visa & Mastercard Debit & Credit Cards
+                        </option>
                       </Select>
                     </div>
                   </div>
@@ -375,11 +417,13 @@ function CompanySignup() {
                         icon={IoServerOutline}
                         onChange={handleChange}
                         name="subscription.plan"
-                        required
                       >
-                        <option>Starter</option>
-                        <option>Pro</option>
-                        <option>Premium</option>
+                        <option disabled selected>
+                          Select a Subscription Plan
+                        </option>
+                        <option value="Starter">Starter</option>
+                        <option value="Pro">Pro</option>
+                        <option value="Premium">Premium</option>
                       </Select>
                     </div>
                     <div className="subscription__duration">
@@ -395,8 +439,10 @@ function CompanySignup() {
                         icon={GiSandsOfTime}
                         onChange={handleChange}
                         name="subscription.duration"
-                        required
                       >
+                        <option disabled selected>
+                          Select a Subscription Duration
+                        </option>
                         <option>Monthly</option>
                         <option>Annually</option>
                       </Select>
@@ -410,11 +456,30 @@ function CompanySignup() {
                     gradientDuoTone="pinkToOrange"
                     type="submit"
                   >
-                    Complete Account Sign Up{" "}
-                    <FaArrowRightLong className="arrow" />
+                    {loading ? (
+                      <>
+                        <Spinner /> <p>Loading..</p>
+                      </>
+                    ) : (
+                      <>
+                        <p> Complete Account Sign Up </p>
+                        <FaArrowRightLong className="arrow" />
+                      </>
+                    )}
                   </Button>
                 </div>
               </form>
+              <div className="errorSucess__div">
+                {errorMessage && (
+                  <Alert color="failure" className="w-full flex text-center">
+                    {errorMessage}
+                  </Alert>
+                )}
+
+                {successMessage && (
+                  <Alert color="success">{successMessage}</Alert>
+                )}
+              </div>
             </div>
           </div>
         </div>

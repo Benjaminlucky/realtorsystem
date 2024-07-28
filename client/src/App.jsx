@@ -8,6 +8,7 @@ import PublicRoute from "./components/PublicRoute";
 import "flowbite/dist/flowbite.css";
 import CompanySignup from "./pages/companySignup/CompanySignup";
 import CompanyDashboard from "./pages/companyDashboard/CompanyDashboard";
+import CompanySignin from "./pages/compSignin/CompanySignin";
 
 function App() {
   return (
@@ -26,6 +27,14 @@ function App() {
           element={
             <PublicRoute>
               <CompanyDashboard />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/companySignin"
+          element={
+            <PublicRoute>
+              <CompanySignin />
             </PublicRoute>
           }
         />
