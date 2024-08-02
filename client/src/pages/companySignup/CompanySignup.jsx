@@ -22,7 +22,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import React, { useState } from "react";
 import "./companySignup.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function CompanySignup() {
   const navigate = useNavigate();
@@ -481,6 +481,11 @@ function CompanySignup() {
                 )}
               </div>
             </div>
+
+            <Link to="/companySignin" className="text-center">
+              Already have an Account ?{" "}
+              <span className="font-bold">Sign in</span>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,0 +1,73 @@
+.signin__section {
+  display: flex;
+  justify-content: space-between;
+  width: var(--fullwidth);
+  height: 100vh;
+}
+
+.compsignin__left {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  color: white;
+  background-image: url("../../assets/companySignupBg.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.signin__leftWrap {
+  padding: 4rem 2rem;
+}
+
+.signin__leftWrap h1 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.signin__leftWrap p {
+  text-align: center;
+}
+
+.signin__right {
+  display: flex;
+  width: 70%;
+  justify-content: center;
+}
+
+.signin__rightwrap {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 4rem;
+  justify-content: center;
+}
+
+.compright__top {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.compright__top h3 {
+  /*font-size: 3rem;*/
+  font-weight: bolder;
+}
+
+.compright__top p {
+  font-size: 1.2rem;
+}
+
+.right__bottom {
+  width: 100%;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.submit__btn {
+  width: 100%;
+}
