@@ -1,5 +1,6 @@
 import Company from "../models/company.models.js";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const createCompany = async (req, res) => {
   try {
@@ -112,3 +113,51 @@ const createCompany = async (req, res) => {
 };
 
 export default createCompany;
+
+export const companySignin = async (req, res) => {
+  try {
+    // get login credentials from body
+    const { companyEmail, password } = req.body;
+    if (companyEmail === "") {
+      return res
+        .status(401)
+        .json({ message: "Please enter your company email address" });
+    }
+
+    if (password === "") {
+      return res.status(401).json({ message: "Please enter your Password" });
+    }
+
+    // Validate if Company Exist
+    const existingCompany = await Company.findOne({ companyEmail });
+    if (!existingCompany) {
+      return res.status(401).json({ message: "Invalid Credentials" });
+    }
+
+    // Validate Company Password
+    const validCompanyPassword = bcryptjs.compareSync(
+      password,
+      existingCompany.password
+    );
+
+    // Generate JWT Token
+    const token = jwt.sign(
+      { id: existingCompany._id, companyName: existingCompany.companyName },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({
+      message: "Sign in successful",
+      company: {
+        id: existingCompany._id,
+        companyName: existingCompany.companyName,
+        companyEmail: existingCompany.companyEmail,
+      },
+      token,
+    });
+  } catch (error) {
+    console.error("error signing in", error);
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
